@@ -1,35 +1,39 @@
-// let message ='Hello World!'; // String
-// alert(message);
+const display = document.querySelector(".display");
 
-// const sum = 2 + 2; // Number
-// alert(sum);
+const digitButtons = document.querySelectorAll(".digits button");
+digitButtons.forEach((button) =>
+  button.addEventListener("click", digitClicked)
+);
 
-const age = parseFloat(prompt('Enter you age'));
-alert('Your age is ' + age);
-
-const nextAge = add(age, 1);
-alert('Next year you will be ' + nextAge);
-
-//String - '', "". `` (особливі ``)
-//Number -1, 2.5, Nan, +Infinity, -Infinity
-// Boolean
-// true, false
-
-//undefined
-// null
-// Object
-// ES2015:
-// Symbol
-// BigInt
-
-if(age < 18){ // <> <= >= === == !== || &&
-    alert('You are underaged!');
-} else{
-    alert('you are adult!');
+function digitClicked(ev) {
+  display.value += ev.target.innerText;
 }
 
+const operButtons = document.querySelectorAll(".opers button");
+operButtons.forEach((button) => button.addEventListener("click", operClicked));
 
-function add(a, b){
-    const sum= a + b;
-    return sum;
+function operClicked(ev) {
+  const lDigit = Number(display.value[display.value.length - 1]);
+  const operator = ev.target.innerText;
+  if (isNaN(lDigit)) {
+    console.log(lDigit);
+    display.value = display.value.substring(0, display.value.length - 1);
+  }
+
+  display.value += operator;
 }
+
+const equals = document.querySelector(".equals");
+equals.addEventListener("click", () => {
+  display.value = `${parseFloat(eval(display.value).toFixed(4))}`;
+});
+
+const clear = document.querySelector(".clear");
+clear.addEventListener("click", () => {
+  display.value = "";
+});
+
+const clearLastDigit = document.querySelector(".clearLastDigit");
+clearLastDigit.addEventListener("click", () => {
+  display.value = display.value.substring(0, display.value.length - 1);
+});
